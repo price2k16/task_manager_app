@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Title of the page, defaulting to "Task Manager App" if not set -->
+    <title><%= content_for(:title) || "Task Manager App" %></title>
+
+    <!-- Meta tags for responsive design and mobile web apps -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- CSRF and CSP tags for security -->
+    <%= csrf_meta_tags %> <!-- CSRF token for form security -->
+    <%= csp_meta_tag %>    <!-- Content Security Policy -->
+
+    <!-- Yield block for additional content in the head (for specific pages) -->
+    <%= yield :head %>
+
+    <!-- Favicon and Apple touch icon for mobile -->
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <!-- Including app stylesheets, with turbo track reload for faster page transitions -->
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
+    <!-- Importing JavaScript files using importmap -->
+    <%= javascript_importmap_tags %>
+
+    <!-- Inline CSS for custom styles -->
+  </head>
+</html>
+
+    <style>
+      /* General body styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header styles */
+      header {
+        background-color: #4CAF50;
+        padding: 10px 20px;
+        color: white;
+        text-align: center;
+      }
+
+      /* Navigation link styles */
+      nav a {
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        margin: 0 10px;
+        border-radius: 5px;
+        background-color: #333;
+      }
+
+      /* Hover effect for navigation links */
+      nav a:hover {
+        background-color: #45a049;
+      }
+
+      /* Container for content */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Footer styles */
+      footer {
+        background-color: lightblue;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Task Manager App</h1>
+      <% if user_signed_in? %>
+        <nav>
+          <%= link_to 'Restart', tasks_path %> | 
+          <%= link_to 'Log Out', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure you want to log out?' } %>
+
+        </nav>
+      <% else %>
+        <nav>
+          <%= link_to 'Log In', new_user_session_path %> |
+          <%= link_to 'Sign Up', new_user_registration_path %>
+        </nav>
+      <% end %>
+    </header>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Task Manager App</p>
+    </footer>
+  </body>
+</html>
